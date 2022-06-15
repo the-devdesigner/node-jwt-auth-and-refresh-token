@@ -63,7 +63,13 @@ export const register = async (req: Request, res: Response) => {
         // return response to client with success status and message, data: newUser._id optional. Any data can be sent.
         return res.status(200).json({ message: "Registered successfully", data: newUser._id })
     } catch (err) {
-        console.error(`Login error: ${err}`)
+        console.error(`Register error: ${err}`)
+        return res.status(500).json({ message: (err as Error).message })
+    }
+}
+export const logout = async (req: Request, res: Response) => {
+    try { return res.clearCookie("TOKEN") } catch (err) {
+        console.error(`Register error: ${err}`)
         return res.status(500).json({ message: (err as Error).message })
     }
 }
