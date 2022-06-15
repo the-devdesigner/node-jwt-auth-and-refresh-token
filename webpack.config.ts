@@ -1,7 +1,7 @@
 import nodeExternals from "webpack-node-externals";
 import path from "path";
 
-const VENDORS = ["dotenv", "express", "regenerator-runtime", "jsonwebtoken", "bcrypt"];
+const VENDORS = ["dotenv", "express", "regenerator-runtime", "mongoose", "jsonwebtoken", "bcrypt"];
 module.exports = {
     mode: "production",
     entry: {
