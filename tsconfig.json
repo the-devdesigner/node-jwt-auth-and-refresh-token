@@ -1,0 +1,18 @@
+{
+	"compilerOptions": {
+		"target": "ES5",
+		"module": "commonjs",
+		"rootDir": ".",
+		"moduleResolution": "node",
+		"declaration": true,
+		"removeComments": false,
+		"declarationDir": "./dist/types",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"noImplicitAny": true
+	},
+	"exclude": ["node_modules", "client", "webpack.*.ts"],
+	"include": ["src"]
+}

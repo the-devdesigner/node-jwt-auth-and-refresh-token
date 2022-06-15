@@ -1,0 +1,18 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = tabs
+insert_final_newline = false
+max_line_length = 100
+trim_trailing_whitespace = true
+
+[*.css]
+indent_size = 4
+indent_style = tabs
+
+[*.json]
+indent_size = 2
+indent_style = tabs
