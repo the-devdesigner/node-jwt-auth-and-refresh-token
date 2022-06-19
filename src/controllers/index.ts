@@ -1,1 +1,2 @@
-export * as AC from './auth-controller'
+export * as AuthCtrl from "./auth-controller";
+export * as AppCtrl from "./app-controller";

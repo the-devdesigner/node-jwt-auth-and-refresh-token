@@ -1,10 +1,13 @@
-require('dotenv/config')
-require('regenerator-runtime')
+require("dotenv/config");
+require("regenerator-runtime");
 
-import app from './utils/app'
+import app from "./utils/app";
+import { connectToDb } from "./utils/db";
 
-const PORT: string | number = process.env.PORT || 4000
+const PORT: string | number = process.env.PORT || 4000;
 
-const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-export default server
+connectToDb();
+
+export default server;
