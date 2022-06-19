@@ -1,10 +1,11 @@
-import { Router } from 'express'
-import { AC } from '../controllers'
+import { Router } from "express";
+import { AC } from "../controllers";
+import { ValidateBody } from "../middlewares";
 
-const router = Router()
+const router = Router();
 
-router.post('/login', AC.login)
-router.post('/register', AC.register)
-router.post('/logout', AC.logout)
+router.post("/login", ValidateBody.validateLoginBody, AC.login);
+router.post("/register", ValidateBody.validateRegisterBody, AC.register);
+router.post("/logout", AC.logout);
 
-export default router
+export default router;
