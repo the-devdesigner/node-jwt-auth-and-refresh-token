@@ -4,6 +4,11 @@ import { validateToken } from "../middlewares";
 
 const router = Router();
 
-router.get("/settings", validateToken.validateAuthToken, AppCtrl.getSettings);
+router.get(
+    "/settings",
+    validateToken.validateRefreshToken,
+    validateToken.validateAuthToken,
+    AppCtrl.getSettings
+);
 
 export default router;

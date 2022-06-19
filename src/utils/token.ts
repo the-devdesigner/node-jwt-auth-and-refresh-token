@@ -6,7 +6,7 @@ export const createAuthToken = (userId: Types.ObjectId) => {
         return sign({ _id: userId }, process.env.AUTH_TOKEN_SECRET as string, {
             noTimestamp: false,
             algorithm: "HS512",
-            expiresIn: "1h",
+            expiresIn: "10s",
         });
     } catch (error) {
         console.log(`Auth token generation error: ${error}`);
@@ -19,7 +19,7 @@ export const createRefreshToken = (userId: Types.ObjectId) => {
         return sign({ _id: userId }, process.env.REFRESH_TOKEN_SECRET as string, {
             noTimestamp: false,
             algorithm: "HS512",
-            expiresIn: "7 days",
+            expiresIn: "7d",
         });
     } catch (error) {
         console.log(`Refresh token generation error: ${error}`);
