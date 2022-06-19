@@ -3,7 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import { AuthRoute, AppRoute } from "../routes";
-import { Jwt } from "jsonwebtoken";
+import { Jwt, JwtHeader, JwtPayload } from "jsonwebtoken";
 
 const app: Application = express();
 

@@ -1,0 +1,29 @@
+# LOGIN
+POST http://localhost:4000/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "aakash@me.com",
+    "password": "aakashjha"
+}
+###
+
+# REGISTER
+POST http://localhost:4000/api/auth/register
+Content-Type: application/json
+
+{
+    "firstName": "Aakash",
+    "lastName": "Jha",
+    "email": "aakash@me.com",
+    "password": "aakashjha"
+}
+###
+
+#REGENERATE AUTHTOKEN
+POST http://localhost:4000/api/auth/new-token
+
+###
+
+# TEST ROUTE TO SETTINGS PAGE
+GET http://localhost:4000/api/app/settings

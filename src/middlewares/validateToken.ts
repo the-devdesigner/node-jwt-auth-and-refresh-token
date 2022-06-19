@@ -3,9 +3,11 @@ import { verify } from "jsonwebtoken";
 
 export const validateAuthToken = async (req: Request, res: Response, next: NextFunction) => {
     if (!req.signedCookies) return res.status(401).json({ message: "Unauthorized" });
-    const { TOKEN } = req.signedCookies;
+    const AUTH_TOKEN = req.signedCookies.AUTHTOKEN;
+    console.log(req.signedCookies);
+    console.log(AUTH_TOKEN);
     try {
-        const validUser = verify(TOKEN, process.env.AUTH_TOKEN_SECRET as string, {
+        const validUser = verify(AUTH_TOKEN, process.env.AUTH_TOKEN_SECRET as string, {
             complete: true,
         });
         if (!validUser) {
@@ -14,9 +16,25 @@ export const validateAuthToken = async (req: Request, res: Response, next: NextF
         req.user = validUser;
         return next();
     } catch (err) {
-        console.error(err);
-        return res.status(500).send((err as Error).message);
+        return res.status(500).send({ message: (err as Error).message, type: (err as Error).name });
     }
 };
 
-export const validateRefreshToken = async (req: Request, res: Response, next: NextFunction) => {};
+export const validateRefreshToken = async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.signedCookies) return res.status(401).json({ message: "Unauthorized" });
+    const REFRESH_TOKEN = req.signedCookies.REFRESHTOKEN;
+    try {
+        const validRefreshToken = verify(
+            REFRESH_TOKEN,
+            process.env.REFRESH_TOKEN_SECRET as string,
+            { complete: true }
+        );
+        if (!validRefreshToken) {
+            return res.status(403).json({ message: "Token Expired. Login again." });
+        }
+        req.user = validRefreshToken;
+        return next();
+    } catch (err) {
+        return res.status(500).send({ message: (err as Error).message, type: (err as Error).name });
+    }
+};

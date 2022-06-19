@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { compare, genSalt, hash } from "bcrypt";
 import { createAuthToken, createRefreshToken } from "../utils/token";
+import { JwtPayload } from "jsonwebtoken";
 
 import UserModel from "../models/UserModel";
 
@@ -20,17 +21,16 @@ export const login = async (req: Request, res: Response) => {
             .cookie("AUTHTOKEN", AUTH_TOKEN, {
                 httpOnly: true,
                 signed: true,
-                expires: new Date(Date.now() + 3600000),
+                expires: new Date(Date.now() + 10000),
             })
             .cookie("REFRESHTOKEN", REFRESH_TOKEN, {
                 httpOnly: true,
                 signed: true,
                 expires: new Date(Date.now() + 3600000),
             })
-            .json({ message: "Logged In", data: user._id });
-    } catch (err) {
-        console.error(`Login error: ${err}`);
-        return res.status(500).json({ message: (err as Error).message });
+            .json({ message: "Logged In" });
+    } catch (error) {
+        return res.status(500).json({ message: (error as Error).message });
     }
 };
 
@@ -48,17 +48,33 @@ export const register = async (req: Request, res: Response) => {
         });
         await newUser.save();
         return res.status(200).json({ message: "Registered successfully", data: newUser._id });
-    } catch (err) {
-        console.error(`Register error: ${err}`);
-        return res.status(500).json({ message: (err as Error).message });
+    } catch (error) {
+        return res.status(500).json({ message: (error as Error).message });
     }
 };
 
 export const logout = async (req: Request, res: Response) => {
     try {
-        return res.clearCookie("TOKEN");
-    } catch (err) {
-        console.error(`Register error: ${err}`);
-        return res.status(500).json({ message: (err as Error).message });
+        return res.clearCookie("AUTHTOKEN", { signed: true });
+    } catch (error) {
+        return res.status(500).json({ message: (error as Error).message });
+    }
+};
+
+export const generateNewToken = async (req: Request, res: Response) => {
+    const { _id } = req.user.payload as JwtPayload;
+    try {
+        const AUTH_TOKEN = createAuthToken(_id);
+        console.log(AUTH_TOKEN);
+        return res
+            .status(200)
+            .cookie("AUTHTOKEN", AUTH_TOKEN, {
+                httpOnly: true,
+                signed: true,
+                expires: new Date(Date.now() + 10000),
+            })
+            .json({ message: "Received new token" });
+    } catch (error) {
+        return res.status(500).json({ message: (error as Error).message });
     }
 };
