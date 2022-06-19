@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { compare, genSalt, hash } from "bcrypt";
-import { createAuthToken } from "../utils/token";
+import { createAuthToken, createRefreshToken } from "../utils/token";
 
 import UserModel from "../models/UserModel";
 
@@ -11,10 +11,18 @@ export const login = async (req: Request, res: Response) => {
         if (!user) return res.status(400).json("User with this email does not exist");
         const isPasswordValid = await compare(password, user.password);
         if (!isPasswordValid) res.status(400).json("Incorrect password");
+
         const AUTH_TOKEN = createAuthToken(user._id);
+        const REFRESH_TOKEN = createRefreshToken(user._id);
+
         return res
             .status(200)
-            .cookie("TOKEN", AUTH_TOKEN, {
+            .cookie("AUTHTOKEN", AUTH_TOKEN, {
+                httpOnly: true,
+                signed: true,
+                expires: new Date(Date.now() + 3600000),
+            })
+            .cookie("REFRESHTOKEN", REFRESH_TOKEN, {
                 httpOnly: true,
                 signed: true,
                 expires: new Date(Date.now() + 3600000),

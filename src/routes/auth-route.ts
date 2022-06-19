@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { AC } from "../controllers";
+import { AuthCtrl } from "../controllers";
 import { ValidateBody } from "../middlewares";
 
 const router = Router();
 
-router.post("/login", ValidateBody.validateLoginBody, AC.login);
-router.post("/register", ValidateBody.validateRegisterBody, AC.register);
-router.post("/logout", AC.logout);
+router.post("/login", ValidateBody.validateLoginBody, AuthCtrl.login);
+router.post("/register", ValidateBody.validateRegisterBody, AuthCtrl.register);
+router.post("/logout", AuthCtrl.logout);
 
 export default router;
